@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
+import { News } from './news';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,10 @@ export class NewsService {
 
   getNews(duration: number) {
     const params = new HttpParams().set('duration', duration)
-    return firstValueFrom(this.http.get<any>('/api/getTags', { params }))
+    return firstValueFrom(this.http.get<any>('/api/tags', { params }))
+  }
+
+  getNewsByTag(tag: string) {
+    return firstValueFrom(this.http.get<News[]>(`/api/tag/${tag}`))
   }
 }

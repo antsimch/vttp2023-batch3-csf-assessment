@@ -1,0 +1,20 @@
+<div>
+    <tr>
+        <td>
+            <button type="button" [routerLink]="['/tags']">Back</button>
+        </td>
+        <td>
+            <button type="button" [routerLink]="['']">Post News</button>
+        </td>
+    </tr>
+
+    <div *ngFor="let news of newsList">
+        {{ news.title }}
+        <br>
+        {{ news.postDate }}
+        <p>
+            {{ news.description }}
+        </p>
+        <span> {{ news.tags }} </span>
+    </div>
+</div>

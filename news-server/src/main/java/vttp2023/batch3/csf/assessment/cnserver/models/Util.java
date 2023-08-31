@@ -17,17 +17,22 @@ public class Util {
 			List<String> tags,
             String imageUrl)
     {
+        System.out.println(tags);
         if (!tags.isEmpty()) {
             JsonArrayBuilder arr = Json.createArrayBuilder();
-            tags.stream().forEach(v -> arr.add(v));
+            tags.stream().forEach(v -> arr.add(v.toString()));
 
-            return Json.createObjectBuilder()
+            JsonObject obj = Json.createObjectBuilder()
                     .add("postDate", System.currentTimeMillis())
                     .add("title", title)
                     .add("description", description)
                     .add("image", imageUrl)
                     .add("tags", arr)
                     .build();
+
+            System.out.println(obj.toString());
+
+            return obj;
         } else {
             return Json.createObjectBuilder()
                     .add("postDate", System.currentTimeMillis())

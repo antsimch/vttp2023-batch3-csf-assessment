@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
+import vttp2023.batch3.csf.assessment.cnserver.models.News;
 import vttp2023.batch3.csf.assessment.cnserver.models.TagCount;
 import vttp2023.batch3.csf.assessment.cnserver.services.NewsService;
 
@@ -67,7 +69,7 @@ public class NewsController {
 	}
 
 	// TODO: Task 2
-	@GetMapping(path = "/getTags", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path = "/tags", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> getTags(@RequestParam int duration) {
 
 		System.out.println(duration);
@@ -86,5 +88,24 @@ public class NewsController {
 	}
 
 	// TODO: Task 3
+	@GetMapping(path = "/tag/{tag}")
+	public ResponseEntity<String> getNewsByTag(@PathVariable String tag) {
+		List<News> newsList = newsSvc.getNewsByTag(tag);
+		
+		JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
 
+		newsList.stream().map(v -> Json.createObjectBuilder()
+						.add("id", v.getId())
+						.add("postDate", v.getPostDate())
+						.add("title", v.getTitle())
+						.add("description", v.getDescription())
+						.add("image", v.getImage())
+						.add("tags", Json.createArrayBuilder(v.getTags())))
+				.forEach(v -> arrBuilder.add(v));
+		
+		JsonArray arr = arrBuilder.build();
+		System.out.println(arr);
+
+		return ResponseEntity.ok(arr.toString());
+	}
 }

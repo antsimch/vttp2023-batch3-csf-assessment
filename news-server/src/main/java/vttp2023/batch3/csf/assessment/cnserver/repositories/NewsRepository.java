@@ -14,9 +14,8 @@ import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
 import org.springframework.data.mongodb.core.aggregation.SortOperation;
 import org.springframework.data.mongodb.core.aggregation.UnwindOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-
-import com.mongodb.internal.operation.AggregateOperation;
 
 @Repository
 public class NewsRepository {
@@ -109,9 +108,6 @@ public class NewsRepository {
 				Sort.by(Direction.DESC, "count")
 				.and(Sort.by(Direction.ASC, "_id")));
 
-		// SortOperation sortByTagName = Aggregation.sort(
-		// 		Sort.by(Direction.ASC, "_id"));
-
 		LimitOperation limitOp = Aggregation.limit(10);
 		
 		Aggregation pipeline = Aggregation.newAggregation(
@@ -131,6 +127,19 @@ public class NewsRepository {
 
 	// TODO: Task 3
 	// Write the native Mongo query in the comment above the method
+	/*
+	
+	 */
 
+	public List<Document> getNewsByTag(String tag) {
+
+		Criteria criteria = new Criteria();
+		
+		Query query = Query.query(criteria.andOperator(
+			Criteria.where("tags").is(tag),
+			Criteria.where("postDate").gte(System.currentTimeMillis() - 15000)));
+
+		return template.find(query, Document.class, "news");
+	}
 
 }
