@@ -1,0 +1,61 @@
+<h1>Share a News</h1>
+
+<div>
+    <form [formGroup]="newsForm" (ngSubmit)="postNews()">
+        <tr>
+            <td>Title:</td>
+            <td>
+                <input type="text" formControlName="title">
+            </td>
+        </tr>
+        <tr>
+            <td>Photo:</td>
+            <td>
+                <input type="file" accept="image/*" #photo>
+            </td>
+        </tr>
+        <tr>
+            <td>Description:</td>
+            <td>
+                <textarea 
+                    cols="23" 
+                    rows="5" 
+                    formControlName="description"
+                    ></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>Tags:</td>
+            <td>
+                <input type="text" #tags>
+                <button 
+                    type="button" 
+                    (click)="pushToArray(tags.value)"
+                    >+</button>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td *ngIf="tagsArray[0]">
+                <span *ngFor="let tag of tagsArray">
+                    <button 
+                        type="button" 
+                        (click)="deleteTagFromArray(tag)"
+                        >{{ tag }}</button>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <button type="button" [routerLink]="['/tags']">Back</button>
+                &nbsp;
+                &nbsp;
+                <button 
+                    type="submit" 
+                    [disabled]="newsForm.invalid || !photoIsAttached(photo)"
+                    >Post News</button>
+            </td>
+        </tr>
+    </form>
+</div>

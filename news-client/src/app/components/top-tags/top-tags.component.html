@@ -1,0 +1,12 @@
+<div>
+    <form [formGroup]="timeForm">
+        <tr>
+            <td>Time</td>
+            <td>
+                <select formControlName="duration" (change)="setTime()">
+                    <option *ngFor="let d of durationOption" [value]="d">{{d}}</option>
+                  </select>
+            </td>
+        </tr>
+    </form>
+</div>
