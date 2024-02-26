@@ -6,3 +6,8 @@ export interface News {
     image: string,
     tags: string[]
 }
+
+export interface TagCount {
+    tag: string,
+    count: number
+}

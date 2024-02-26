@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TagCount } from 'src/app/news';
 import { NewsService } from 'src/app/news.service';
 
 @Component({
@@ -13,6 +14,8 @@ export class TopTagsComponent {
   durationOption: number[] = [ 5, 15, 30, 45, 60 ]
   duration!: number
 
+  tagCountArr: TagCount[] = []
+
   constructor(
       private fb: FormBuilder,
       private newsSvc: NewsService) {}
@@ -21,6 +24,11 @@ export class TopTagsComponent {
     this.createForm()
     this.duration = this.timeForm.value['duration']
     this.newsSvc.getNews(this.duration)
+        .then(
+          result => {
+            this.tagCountArr = result
+          }
+        )
   }
 
   setTime() {
@@ -29,6 +37,11 @@ export class TopTagsComponent {
     this.duration = parseInt(this.timeForm.value['duration'])
     console.log(this.duration)
     this.newsSvc.getNews(this.duration)
+        .then(
+          result => {
+            this.tagCountArr = result
+          }
+        )
   }
 
   createForm() {

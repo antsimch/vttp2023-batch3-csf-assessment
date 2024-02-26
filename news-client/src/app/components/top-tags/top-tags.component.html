@@ -10,3 +10,9 @@
         </tr>
     </form>
 </div>
+
+<div>
+    <span *ngFor="let tagCount of tagCountArr">
+        <button type="button" [routerLink]="['/tag', tagCount.tag]">{{ tagCount.tag }}({{ tagCount.count }})</button>
+    </span>
+</div>

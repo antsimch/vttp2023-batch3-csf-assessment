@@ -111,10 +111,10 @@ public class NewsRepository {
 		LimitOperation limitOp = Aggregation.limit(10);
 		
 		Aggregation pipeline = Aggregation.newAggregation(
-				matchOp, 
+				matchOp,
 				unwindTags, 
-				groupByTags, 
-				projectTagCount, 
+				groupByTags,
+				projectTagCount,
 				sortOp,
 				limitOp);	
 		
@@ -128,16 +128,15 @@ public class NewsRepository {
 	// TODO: Task 3
 	// Write the native Mongo query in the comment above the method
 	/*
-	
-	 */
 
+	 */
 	public List<Document> getNewsByTag(String tag) {
 
 		Criteria criteria = new Criteria();
 		
 		Query query = Query.query(criteria.andOperator(
 			Criteria.where("tags").is(tag),
-			Criteria.where("postDate").gte(System.currentTimeMillis() - 15000)));
+			Criteria.where("postDate").gte(System.currentTimeMillis() - (15 * 60 * 1000))));
 
 		return template.find(query, Document.class, "news");
 	}

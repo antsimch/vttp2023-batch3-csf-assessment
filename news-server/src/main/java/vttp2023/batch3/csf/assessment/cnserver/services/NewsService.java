@@ -52,7 +52,7 @@ public class NewsService {
 	// You may add any number of parameters
 	// Returns a list of tags and their associated count
 	public List<TagCount> getTags(int duration) {
-		long tagDateCheck = System.currentTimeMillis() - duration;
+		long tagDateCheck = System.currentTimeMillis() - (duration*60*1000);
 		System.out.println("\n\n" + tagDateCheck + "\n\n");
 
 		List<Document> docs = newsRepo.findTags(tagDateCheck);
@@ -61,7 +61,7 @@ public class NewsService {
 		List<TagCount> tagCountList = new LinkedList<>();
 
 		docs.stream().forEach(v -> tagCountList.add(new TagCount(
-				v.getString("_id"), v.getInteger("news_count")))
+				v.getString("_id"), v.getInteger("count")))
 		);
 
 		tagCountList.forEach(v -> System.out.println(v));
@@ -90,7 +90,7 @@ public class NewsService {
 			newsList.add(news);
 		}
 
-		System.out.println("\n\n" + newsList + "\n\n");
+		// System.out.println("\n\n" + newsList + "\n\n");
 
 		return newsList;
 	}
